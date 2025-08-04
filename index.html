@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>LobsterDes.</title>
+    <style>
+        .carousel {
+            width: 70vw;
+            margin: 0px auto 0 auto;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            aspect-ratio: 16 / 9;
+            height: auto;
+        }
+        .carousel-index,
+        .carousel-btn {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        .carousel:hover .carousel-index,
+        .carousel:hover .carousel-btn {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        .carousel-index {
+            position: absolute;
+            top: 12px;
+            right: 24px;
+            background: rgba(255,255,255,0.8);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 16px;
+            color: #333;
+            z-index: 10;
+        }
+        .carousel-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        .carousel-img.active {
+            opacity: 1;
+            position: relative;
+            z-index: 1;
+        }
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.7);
+            border: none;
+            font-size: 32px;
+            cursor: pointer;
+            z-index: 2;
+            padding: 8px 16px;
+            border-radius: 4px;
+        }
+        .carousel-btn.left {
+            left: 16px;
+        }
+        .carousel-btn.right {
+            right: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div id="top" style="width: 80%; background-color: white; margin: 0 auto;">
+        <div class="logo" style="font-size: xx-large;font-weight: bold;margin-left: 5%;margin-top:2ch;margin-bottom:1ch;">
+            lobster design
+        </div>
+        <div class="menu" style="margin-left: 5%;font-weight: bold;">
+            <tr>飞机涂装</tr>
+            <tr> </tr>
+            <tr> </tr>
+        </div>
+    </div>
+
+    <hr style="width: 100%; border: none; border-top: 1px solid #ccc; margin-top: 2ch;margin-bottom: 2ch;">
+    
+    <div class="carousel">
+        <div class="carousel-index" id="carousel-index">1 / 3</div>
+        <button class="carousel-btn left" onclick="prevSlide()">&#8592;</button>
+        <button class="carousel-btn right" onclick="nextSlide()">&#8594;</button>
+        <img src="img/img1.jpg" class="carousel-img active">
+        <img src="img/img2.jpg" class="carousel-img">
+        <img src="img/img3.jpg" class="carousel-img">
+        <img src="img/img4.jpg" class="carousel-img">
+        <img src="img/img5.jpg" class="carousel-img">
+    </div>
+    <script>
+    let current = 0;
+    let imgs;
+    let indexDiv;
+    window.addEventListener('DOMContentLoaded', function() {
+        imgs = document.querySelectorAll('.carousel-img');
+        indexDiv = document.getElementById('carousel-index');
+        showSlide(0);
+        setInterval(nextSlide, 3000);
+    });
+    function showSlide(idx) {
+        imgs.forEach((img, i) => {
+            img.classList.remove('active');
+            if (i === idx) {
+                img.classList.add('active');
+            }
+        });
+        current = idx;
+        if(indexDiv) {
+            indexDiv.textContent = (current + 1) + ' / ' + imgs.length;
+        }
+    }
+    function nextSlide() {
+        showSlide((current + 1) % imgs.length);
+    }
+    function prevSlide() {
+        showSlide((current - 1 + imgs.length) % imgs.length);
+    }
+    </script>
+    </div>
+
+    <hr style="width: 100%; border: none; border-top: 1px solid #ccc; margin-top: 2ch;margin-bottom: 2ch;">
+
+    <div>
+        <h2 style="margin-left: 15%;">FlightFactor A320</h2>
+        <table id="livery-table" style="width:70vw; margin: 2ch auto; border-collapse: collapse; font-size: 18px;">
+            <thead>
+                <tr style="background:#f5f5f5;">
+                    <th style="border:1px solid #ccc; padding:8px 16px;">编号</th>
+                    <th style="border:1px solid #ccc; padding:8px 16px;">涂装名称</th>
+                    <th style="border:1px solid #ccc; padding:8px 16px;">注册号</th>
+                    <th style="border:1px solid #ccc; padding:8px 16px;">链接</th>
+                </tr>
+            </thead>
+            <tbody id="livery-tbody">
+            </tbody>
+        </table>
+    <script>
+    // ...existing carousel code...
+    // 表格数据加载
+    fetch('data.json')
+      .then(res => res.json())
+      .then(data => {
+        const tbody = document.getElementById('livery-tbody');
+        tbody.innerHTML = data.map(row => `
+          <tr>
+            <td style="border:1px solid #ccc; padding:8px 16px;">${row.id}</td>
+            <td style="border:1px solid #ccc; padding:8px 16px;">${row.name}</td>
+            <td style="border:1px solid #ccc; padding:8px 16px;">${row.reg || ''}</td>
+            <td style="border:1px solid #ccc; padding:8px 16px;">
+              <a href="${row.link}" target="_blank" style="color:#1976d2;text-decoration:underline;">飞行者商城</a>
+            </td>
+          </tr>
+        `).join('');
+      });
+    </script>
+    </div>
+    <hr style="width: 100%; border: none; border-top: 1px solid #ccc; margin-top: 2ch;margin-bottom: 2ch;">
+</body>
+</html>
