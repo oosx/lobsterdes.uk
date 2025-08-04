@@ -83,13 +83,15 @@
         <div class="logo" style="font-size: xx-large;font-weight: bold;margin-left: 5%;margin-top:2ch;margin-bottom:1ch;">
             lobster design
         </div>
-        <div class="menu" style="margin-left: 5%;font-weight: bold;">
+        <!-- <div class="menu" style="margin-left: 5%;font-weight: bold;">
             <tr>飞机涂装</tr>
             <tr> </tr>
             <tr> </tr>
-        </div>
+        </div> -->
     </div>
-
+<div class="custo" style="font-size: large;font-weight: bold; text-align: right; margin-right: 15%; margin-top:2ch; margin-bottom:3ch;">
+            ℹ️ 涂装定制请联系 <a href="#" id="copy-email" style="text-decoration:none; color:#1976d2; cursor:pointer;">osw@outlook.sg</a>
+        </div>
     <hr style="width: 100%; border: none; border-top: 1px solid #ccc; margin-top: 2ch;margin-bottom: 2ch;">
     
     <div class="carousel">
@@ -103,6 +105,18 @@
         <img src="./img/img5.jpg" class="carousel-img" oncontextmenu="return false;" draggable="false">
     </div>
     <script>
+    // 邮箱点击复制功能
+    document.addEventListener('DOMContentLoaded', function() {
+      var emailLink = document.getElementById('copy-email');
+      if(emailLink) {
+        emailLink.addEventListener('click', function(e) {
+          e.preventDefault();
+          navigator.clipboard.writeText('osw@outlook.sg').then(function() {
+            alert('邮箱已复制到剪贴板');
+          });
+        });
+      }
+    });
     // 禁止页面所有文字复制
     document.addEventListener('copy', function(e) {
       e.preventDefault();
